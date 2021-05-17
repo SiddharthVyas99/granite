@@ -14,6 +14,7 @@ const Table = ({ data, destroyTask, updateTask, showTask }) => {
               <TableRow
                 data={data}
                 updateTask={updateTask}
+                destroyTask={destroyTask}
                 showTask={showTask}
               />
             </table>

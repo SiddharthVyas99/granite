@@ -21,12 +21,21 @@ const Dashboard = ({ history }) => {
     }
   };
 
-  const showTask = slug => {
-    history.push(`/tasks/${slug}/show`);
+  const destroyTask = async slug => {
+    try {
+      await tasksApi.destroy(slug);
+      await fetchTasks();
+    } catch (error) {
+      logger.error(error);
+    }
   };
 
   const updateTask = slug => {
     history.push(`/tasks/${slug}/edit`);
+  };
+
+  const showTask = slug => {
+    history.push(`/tasks/${slug}/show`);
   };
 
   useEffect(() => {
@@ -44,7 +53,12 @@ const Dashboard = ({ history }) => {
   if (!either(isNil, isEmpty)(tasks)) {
     return (
       <Container>
-        <ListTasks data={tasks} updateTask={updateTask} showTask={showTask} />
+        <ListTasks
+          data={tasks}
+          destroyTask={destroyTask}
+          updateTask={updateTask}
+          showTask={showTask}
+        />
       </Container>
     );
   }
