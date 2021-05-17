@@ -21,6 +21,10 @@ const Dashboard = ({ history }) => {
     }
   };
 
+  const showTask = slug => {
+    history.push(`/tasks/${slug}/show`);
+  };
+
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -36,7 +40,7 @@ const Dashboard = ({ history }) => {
   if (!either(isNil, isEmpty)(tasks)) {
     return (
       <Container>
-        <ListTasks data={tasks} />
+        <ListTasks data={tasks} showTask={showTask} />
       </Container>
     );
   }

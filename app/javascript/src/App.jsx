@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import CreateTask from "components/Tasks/CreateTask";
 
 import Dashboard from "components/Dashboard";
+import ShowTask from "components/Tasks/ShowTask";
+
 import { initializeLogger } from "common/logger";
 import { ToastContainer } from "react-toastify";
 import { registerIntercepts } from "apis/axios";
@@ -20,6 +22,7 @@ const App = () => {
       <ToastContainer />
       <Switch>
         {/* // <--- rest of the code if any -----> */}
+        <Route exact path="/tasks/:slug/show" component={ShowTask} />
         <Route exact path="/tasks/create" component={CreateTask} />
         <Route exact path="/dashboard" component={Dashboard} />
       </Switch>
