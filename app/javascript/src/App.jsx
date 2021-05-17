@@ -3,6 +3,7 @@ import CreateTask from "components/Tasks/CreateTask";
 
 import Dashboard from "components/Dashboard";
 import ShowTask from "components/Tasks/ShowTask";
+import EditTask from "components/Tasks/EditTask";
 
 import { initializeLogger } from "common/logger";
 import { ToastContainer } from "react-toastify";
@@ -22,6 +23,7 @@ const App = () => {
       <ToastContainer />
       <Switch>
         {/* // <--- rest of the code if any -----> */}
+        <Route exact path="/tasks/:slug/edit" component={EditTask} />
         <Route exact path="/tasks/:slug/show" component={ShowTask} />
         <Route exact path="/tasks/create" component={CreateTask} />
         <Route exact path="/dashboard" component={Dashboard} />
