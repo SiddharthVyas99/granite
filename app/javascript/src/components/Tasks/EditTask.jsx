@@ -24,10 +24,12 @@ const EditTask = ({ history }) => {
         payload: { task: { title, user_id: userId } },
       });
       setLoading(false);
-      history.push("/dashboard");
+      Toastr.success("Successfully updated task.");
+      history.push("/");
     } catch (error) {
-      setLoading(false);
       logger.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
