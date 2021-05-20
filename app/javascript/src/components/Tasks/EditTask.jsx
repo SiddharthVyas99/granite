@@ -24,7 +24,7 @@ const EditTask = ({ history }) => {
         payload: { task: { title, user_id: userId } },
       });
       setLoading(false);
-      Toastr.success("Successfully updated task.");
+      // Toastr.success("Successfully updated task.");
       history.push("/");
     } catch (error) {
       logger.error(error);
