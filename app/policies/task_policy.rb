@@ -34,4 +34,17 @@ class TaskPolicy
   def destroy?
     task.creator_id == user.id
   end
+
+  class Scope
+    attr_reader :user, :scope
+
+    def initialize(user, scope)
+      @user = user
+      @scope = scope
+    end
+
+    def resolve
+      scope.where(creator_id: user.id).or(scope.where(user_id: user.id))
+    end
+  end
 end

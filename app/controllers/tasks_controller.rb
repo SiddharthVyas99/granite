@@ -7,6 +7,7 @@ class TasksController < ApplicationController
   def index
     # @tasks = Task.all
     tasks = policy_scope(Task)
+    # @tasks = TaskPolicy::Scope.new(current_user, Task).resolve
     # tasks = Task.all
     render status: :ok, json: { tasks: tasks }
   end

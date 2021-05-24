@@ -32,6 +32,7 @@ const Dashboard = ({ history }) => {
 
   const updateTask = slug => {
     history.push(`/tasks/${slug}/edit`);
+    // history.push(`/tasks/${taskDetails.slug}/edit`);
   };
 
   const showTask = slug => {
