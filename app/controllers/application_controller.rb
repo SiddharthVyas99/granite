@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
+  include Pundit
 
   def authenticate_user_using_x_auth_token
     user_email = request.headers["X-Auth-Email"]

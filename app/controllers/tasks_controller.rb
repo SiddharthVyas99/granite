@@ -6,11 +6,25 @@ class TasksController < ApplicationController
 
   def index
     # @tasks = Task.all
-    tasks = Task.all
+    tasks = policy_scope(Task)
+    # tasks = Task.all
     render status: :ok, json: { tasks: tasks }
+  end
+  
+  def create
+    @task = Task.new(task_params.merge(creator_id: @current_user.id))
+    authorize @task
+    if @task.save
+      render status: :ok,
+             json: { notice: t('successfully_created', entity: 'Task') }
+    else
+      errors = @task.errors.full_messages
+      render status: :unprocessable_entity, json: { errors: errors }
+    end
   end
 
   def show
+    authorize @task
     task_creator = User.find(@task.creator_id).name
     render status: :ok, json: { task: @task,
                                 assigned_user: @task.user,
@@ -18,37 +32,24 @@ class TasksController < ApplicationController
                               }
   end
 
-  # def create
-  #   @task = Task.new(task_params)
-  #   if @task.save
-  #     render status: :ok, json: { notice: t('successfully_created', entity: 'Task') }
-  #   else
-  #     errors = @task.errors.full_messages
-  #     render status: :unprocessable_entity, json: { errors: errors  }
-  #   end
-  # rescue ActiveRecord::RecordNotUnique => e
-  #   render status: :unprocessable_entity, json: { errors: e.message }
-  # end
-
-  def create
-    @task = Task.new(task_params.merge(creator_id: @current_user.id))
-    if @task.save
-      render status: :ok, json: { notice: t('successfully_created', entity: 'Task') }
-    else
-      errors = @task.errors.full_messages.to_sentence
-      render status: :unprocessable_entity, json: { errors: errors }
-    end
-  end
-
   def update
-    if @task.update(task_params)
-      render status: :ok, json: { notice: 'Successfully updated task.' }
+    authorize @task
+    is_not_owner = @task.creator_id != current_user.id
+
+    if task_params[:authorize_owner] && is_not_owner
+      render status: :forbidden, json: { error: t('authorization.denied') }
+    end
+
+    if @task.update(task_params.except(:authorize_owner))
+      render status: :ok, json: {}
     else
-      render status: :unprocessable_entity, json: { errors: @task.errors.full_messages }
+      render status: :unprocessable_entity,
+             json: { errors: @task.errors.full_messages.to_sentence }
     end
   end
 
   def destroy
+    authorize @task
     if @task.destroy
       render status: :ok, json: { notice: 'Successfully deleted task.' }
     else
@@ -60,7 +61,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :user_id)
+    params.require(:task).permit(:title, :user_id, :authorize_owner)
     # params.require(:task).permit(:title)
   end
 

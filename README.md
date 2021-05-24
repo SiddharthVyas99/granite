@@ -1,11 +1,9 @@
-# README
+# TO-DO app
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+Application Description - Simple to-do app to allow authenticated users to assign tasks. Frontend build on react.js with backend on Rails. All CRUD operations supported on tasks endpoint according to the set policies. 
 
 * Ruby version
+    2.7.2
 
 * System dependencies
 
@@ -15,10 +13,8 @@ Things you may want to cover:
 
 * Database initialization
 
-* How to run the test suite
+* Running the test suite
 
 * Services (job queues, cache servers, search engines, etc.)
 
 * Deployment instructions
-
-* ...
