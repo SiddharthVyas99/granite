@@ -8,7 +8,6 @@ class UserTest < ActiveSupport::TestCase
                      password_confirmation: 'welcome')
   end
 
-  # embed new test cases here...
   def test_user_should_be_not_be_valid_without_name
     @user.name = ''
     assert_not @user.valid?
