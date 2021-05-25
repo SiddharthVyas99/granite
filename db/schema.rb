@@ -30,9 +30,10 @@ ActiveRecord::Schema.define(version: 2021_05_25_104126) do
   end
 
   create_table "tasks", force: :cascade do |t|
-    t.text "title", null: false
+    t.text "body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "title", null: false
     t.string "slug", null: false
     t.integer "user_id"
     t.integer "creator_id"

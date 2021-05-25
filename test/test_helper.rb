@@ -1,13 +1,21 @@
-ENV['RAILS_ENV'] ||= 'test'
-require_relative "../config/environment"
-require "rails/test_help"
-
 class ActiveSupport::TestCase
-  # Run tests in parallel with specified workers
-  parallelize(workers: :number_of_processors, with: :threads)
+  include ActionView::Helpers::TranslationHelper
+  # ActiveRecord::Migration.maintain_test_schema!
 
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :all
+  # Run tests in parallel with specified workers
+  parallelize(workers: :number_of_processors)
 
   # Add more helper methods to be used by all tests here...
 end
+
+In this chapter we will focus on testing our `Task` model.
+
+## Fixtures
+
+By default Rails creates `test/fixtures` directory and recommends us to use fixtures.
+However we at BigBinary think that using fixtures creates various sorts of issues.
+
+To disable using fixtures open `test/test_helper.rb` and comment out the line shown below.
+
+```ruby
+# fixtures :all
