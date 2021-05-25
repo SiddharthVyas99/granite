@@ -8,9 +8,19 @@ class TasksController < ApplicationController
     # @tasks = Task.all
     # @tasks = TaskPolicy::Scope.new(current_user, Task).resolve
     tasks = policy_scope(Task)
-    pending_tasks = tasks.pending
-    completed_tasks = tasks.completed
-    render status: :ok, json: { tasks: { pending: pending_tasks, completed: completed_tasks } }
+    # pending_tasks = tasks.pending
+    # completed_tasks = tasks.completed
+    # render status: :ok, json: { tasks: { pending: pending_tasks, completed: completed_tasks } }
+    render status: :ok, json: {
+    tasks: {
+      pending: tasks.organize(:pending).as_json(include: {
+        user: {
+          only: [:name, :id]
+        }
+      }),
+      completed: tasks.organize(:completed)
+    }
+  }
   end
   
   def create

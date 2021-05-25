@@ -8,6 +8,7 @@ const ListTasks = ({
   updateTask,
   showTask,
   handleProgressToggle,
+  starTask,
 }) => {
   return (
     <Table
@@ -17,6 +18,7 @@ const ListTasks = ({
       updateTask={updateTask}
       showTask={showTask}
       handleProgressToggle={handleProgressToggle}
+      starTask={starTask}
     />
   );
 };

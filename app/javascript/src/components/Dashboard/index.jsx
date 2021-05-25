@@ -57,6 +57,19 @@ const Dashboard = ({ history }) => {
     history.push(`/tasks/${slug}/show`);
   };
 
+  const starTask = async (slug, status) => {
+    try {
+      const toggledStatus = status === "starred" ? "unstarred" : "starred";
+      await tasksApi.update({
+        slug,
+        payload: { task: { status: toggledStatus } },
+      });
+      await fetchTasks();
+    } catch (error) {
+      logger.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -94,6 +107,7 @@ const Dashboard = ({ history }) => {
           updateTask={updateTask}
           showTask={showTask}
           handleProgressToggle={handleProgressToggle}
+          starTask={starTask}
         />
       )}
       {!either(isNil, isEmpty)(completedTasks) && (

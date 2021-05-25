@@ -28,4 +28,10 @@ class Task < ApplicationRecord
       errors.add(:slug, t('task.slug.immutable'))
     end
   end
+
+  def self.organize(progress)
+    starred = send(progress).starred.order('updated_at DESC')
+    unstarred = send(progress).unstarred
+    starred + unstarred
+  end
 end
