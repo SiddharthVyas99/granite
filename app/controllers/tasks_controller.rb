@@ -6,10 +6,11 @@ class TasksController < ApplicationController
 
   def index
     # @tasks = Task.all
-    tasks = policy_scope(Task)
     # @tasks = TaskPolicy::Scope.new(current_user, Task).resolve
-    # tasks = Task.all
-    render status: :ok, json: { tasks: tasks }
+    tasks = policy_scope(Task)
+    pending_tasks = tasks.pending
+    completed_tasks = tasks.completed
+    render status: :ok, json: { tasks: { pending: pending_tasks, completed: completed_tasks } }
   end
   
   def create
@@ -61,7 +62,8 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:title, :user_id, :authorize_owner)
+    params.require(:task).permit(:title, :user_id, :progress, :status, :authorize_owner)
+    # params.require(:task).permit(:title, :user_id, :authorize_owner)
     # params.require(:task).permit(:title)
   end
 
